@@ -1,9 +1,13 @@
-from rounds.round import Round, BuildRoundParams
+
+from config.game_conf import GameConf
+from handler.round import Round, BuildRoundParams
 
 
 class Slots:
-    def __init__(self):
+    def __init__(self, game_id: int):
         self.rounds = []
+
+        self.game_conf = GameConf(game_id)
 
     def start(self):
         """
@@ -15,3 +19,6 @@ class Slots:
             self.rounds.append(_round)
             if _round.game_end:
                 break
+
+
+Slots(50)

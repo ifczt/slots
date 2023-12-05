@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from rounds.matrix import BuildMatrixParams, Matrix
+from games.game import BuildGameParams
+from games.ligature import Ligature
 
 
 @dataclass
@@ -18,6 +19,7 @@ class Data:
 
 @dataclass
 class BuildRoundParams:
+    game_params: BuildGameParams
     build_nums: int = 1  # 生成数量
 
 
@@ -32,7 +34,7 @@ class Round:
         self.previous_round = previous_round
         self.build()
 
-    def get_next_round_params(self):
+    def get_next_round_params(self) -> BuildRoundParams:
         """
         获取下一个回合参数
         :return:
@@ -43,9 +45,8 @@ class Round:
         """
         生成回合数据
         """
-        _matrix = None
-        for index in range(self.build_params.build_nums):
-            _matrix = Matrix(BuildMatrixParams(), _matrix)
+        Ligature(BuildGameParams())  # 生成游戏
+        return self
 
     @property
     def game_end(self):

@@ -9,8 +9,10 @@ class Ligature(Game):
 
     def build(self):
         for index in range(self.build_params.build_nums):
-            pass
+            self.conduct()
 
     def conduct(self):
-        matrix = Matrix(BuildMatrixParams())
+        matrix_params = BuildMatrixParams(rows=self.build_params.rows, cols=self.build_params.cols, mode=self.build_params.mode,prob=self.build_params.prob)
+        matrix = Matrix(matrix_params)
+        winnings = self.build_params.winnings.mate(matrix.matrix)
         return self

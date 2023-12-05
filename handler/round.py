@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from games.game import BuildGameParams
+from games.game import BuildGameParams, Game
 from games.ligature import Ligature
 
 
@@ -32,6 +32,9 @@ class Round:
         """
         self.build_params = params
         self.previous_round = previous_round
+        self.HANDLER = {
+            Game.LIGATURE: Ligature
+        }
         self.build()
 
     def get_next_round_params(self) -> BuildRoundParams:
@@ -45,7 +48,8 @@ class Round:
         """
         生成回合数据
         """
-        Ligature(BuildGameParams())  # 生成游戏
+        game_params = self.build_params.game_params
+        self.HANDLER[game_params.mode](game_params)  # 生成游戏
         return self
 
     @property

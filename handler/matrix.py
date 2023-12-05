@@ -4,16 +4,15 @@ from typing import Union
 import numpy as np
 from numpy import ndarray
 
-
-class BuildType:
-    LIGATURE = 'LIGATURE'  # 连线
-    RID_LIGATURE = 'RID_LIGATURE'  # 消除-连线
+from games.game import Game
+from handler.prob import Prob
 
 
 @dataclass
 class BuildMatrixParams:
-    build_type: str = BuildType.LIGATURE  # 生成类型
-    row: int = 10  # 行数
+    prob: Prob
+    mode: str = Game.LIGATURE  # 生成类型
+    rows: int = 10  # 行数
     cols: int = 10  # 列数
 
 
@@ -26,12 +25,25 @@ class Matrix:
         """
         self.build_params = params
         self.previous_matrix = previous_matrix
+        self.HANDLER = {
+            Game.LIGATURE: self.build_ligature
+        }
+        self.matrix = []
         self.build()
 
     def build(self) -> 'Matrix':
         """
         生成矩阵
         """
+        self.HANDLER[self.build_params.mode]()
+        return self
+
+    def build_ligature(self) -> 'Matrix':
+        _mx = np.zeros((self.build_params.rows, self.build_params.cols), dtype=int)
+        for row in range(self.build_params.rows):
+            for col in range(self.build_params.cols):
+                _mx[row, col] = self.build_params.prob.gen_symbol()
+        self.matrix = _mx
         return self
 
     @staticmethod

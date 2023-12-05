@@ -1,25 +1,16 @@
-import tomllib
+import random
 
-data = {
-    1: {3: 1, 4: 2, 5: 3},
-    2: {3: 1, 4: 2, 5: 3},
-}
-# toml
-t_str = """
-[[odds]]
-symbol = 1
-3 = 1
-4 = 1
-5 = 1
-[[odds]]
-symbol = 2
-3 = 1
-4 = 1
-5 = 1
-[[winning_rule]]
-coords = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
-[[winning_rule]]
-coords = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
+import numpy as np
 
-"""
-print(tomllib.loads(t_str))
+
+def generate_array(i,j):
+    index = random.randint(1, 100)
+    return index+j-j
+
+
+rows = 3
+cols = 3
+
+matrix = np.fromfunction(generate_array, (rows, cols), dtype=int)
+np.array()
+print(matrix)

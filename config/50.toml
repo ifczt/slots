@@ -22,6 +22,9 @@ coords = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
 [game]
 wild_id = 1
 jackpot_id = 8
+rows = 3
+cols = 5
+mode = 'LIGATURE'
 [prob]
 [[prob.symbol]]
 1 = 0.1

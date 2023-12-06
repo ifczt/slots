@@ -21,6 +21,7 @@ class GameConf:
         self.winnings = None
         self.prob = None
         self.build_game_params = None
+        self.build_round_params = None
         self.game_id = game_id
         path = f'config/{game_id}.toml'
         if not os.path.exists(path):
@@ -35,3 +36,6 @@ class GameConf:
         self.winnings = Winnings(self.config.get('winnings'), self.config.get('game'))
         self.prob = Prob(self.config.get('prob'))
         self.build_game_params = BuildGameParams(**self.config.get('game'), prob=self.prob, winnings=self.winnings)
+        round_conf = self.config.get('round')
+        round_conf = round_conf[0] if round_conf else {}
+        self.build_round_params = BuildRoundParams(game_params=self.build_game_params, **round_conf)

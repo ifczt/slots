@@ -35,6 +35,7 @@ class Game:
         self.build_params = params
         self.previous_game = previous_game
         self.gamedata_lt = []
+        self.score = 0
         self.build()
 
     @abstractmethod

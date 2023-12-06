@@ -10,7 +10,9 @@ class Ligature(Game):
     def build(self):
         self.gamedata_lt = []
         for index in range(self.build_params.build_nums):
-            self.gamedata_lt.append(self.conduct())
+            gamedata = self.conduct()
+
+            self.gamedata_lt.append(gamedata)
 
     def conduct(self):
         matrix_params = BuildMatrixParams(rows=self.build_params.rows, cols=self.build_params.cols, mode=self.build_params.mode, prob=self.build_params.prob)

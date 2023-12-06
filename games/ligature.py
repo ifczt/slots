@@ -10,12 +10,12 @@ class Ligature(Game):
     def build(self):
         self.gamedata_lt = []
         for index in range(self.build_params.build_nums):
-            gamedata = self.conduct()
-
+            gamedata, score = self.conduct()
             self.gamedata_lt.append(gamedata)
+            self.score += score
 
-    def conduct(self):
+    def conduct(self) -> (GameData, int):
         matrix_params = BuildMatrixParams(rows=self.build_params.rows, cols=self.build_params.cols, mode=self.build_params.mode, prob=self.build_params.prob)
         matrix = Matrix(matrix_params)
-        winnings = self.build_params.winnings.mate(matrix.matrix)
-        return GameData(matrix=matrix.matrix, winnings=winnings)
+        winnings, score = self.build_params.winnings.mate(matrix.matrix)
+        return GameData(matrix=matrix.matrix, winnings=winnings), score

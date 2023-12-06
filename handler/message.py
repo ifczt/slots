@@ -11,7 +11,7 @@ class Message:
         index = index or self.index
         if index >= len(self.rounds):
             raise 'index out of range'
-        print(self.rounds[index])
+        print(self.rounds[index].prizes)
 
     def inc_send(self):
         """

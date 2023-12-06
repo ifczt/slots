@@ -38,7 +38,7 @@ class Round:
         }
         self.game_lt = []
         self.game = None
-        self.multiplier = 1
+        self.multiple = 1
         self.prizes = 0
         self.build()
 
@@ -49,7 +49,7 @@ class Round:
         """
         params = {}
         if self.build_params.inherit:
-            params['multiple'] = self.multiplier
+            params['multiple'] = self.multiple
         build_params = BuildRoundParams(game_params=self.build_params.game_params, **params)
         return build_params
 
@@ -60,6 +60,7 @@ class Round:
         for index in range(self.build_params.build_nums):
             game_params = self.build_params.game_params
             self.game = self.HANDLER[game_params.mode](game_params)
+            self.prizes += (self.game.score * self.multiple)
             self.game_lt.append(self.game)  # 生成游戏
         return self
 

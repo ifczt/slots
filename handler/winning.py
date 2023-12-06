@@ -1,6 +1,6 @@
 import bisect
 from dataclasses import dataclass, field
-from typing import Union, List
+from typing import Union, List, Tuple
 
 from handler.matrix import Matrix
 from utils import convert_keys_to_numbers
@@ -98,23 +98,25 @@ class Winnings:
             self.wild_id = self.game_conf.get('wild_id')
             self.jackpot_id = self.game_conf.get('jackpot_id')
 
-    def mate(self, matrix) -> List[Winning]:
+    def mate(self, matrix) -> (List[Winning], float):
         """
         检查是否中奖
         :param matrix: 验证矩阵
-        :return: winnings list
+        :return: winnings list score 分数
         """
         _winnings = []
+        score = 0
         for rule in self.winning_rule:
             tp = rule.get('type', Winnings.LIGATURE)
             if tp not in self.HANDLER:
                 continue
             func = self.HANDLER[tp]
             winning = func(matrix, rule)
+            score += winning.score if winning else 0
             winning and _winnings.append(winning)
-        return _winnings
+        return _winnings, score
 
-    def mate_ligature(self, matrix: list, rule: dict) -> Union[Winning, None]:
+    def mate_ligature(self, matrix: list, rule: dict) -> Winning | None:
         """
         匹配线路
         :param matrix: 矩阵

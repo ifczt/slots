@@ -18,6 +18,7 @@ class Slots:
             self.rounds.append(_round)
             if _round.game_end:
                 break
+        print(_round.game)
 
 
 Slots(50).start()

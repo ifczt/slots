@@ -35,6 +35,7 @@ class Round:
         self.HANDLER = {
             Game.LIGATURE: Ligature
         }
+        self.game = None
         self.build()
 
     def get_next_round_params(self) -> BuildRoundParams:
@@ -49,7 +50,7 @@ class Round:
         生成回合数据
         """
         game_params = self.build_params.game_params
-        self.HANDLER[game_params.mode](game_params)  # 生成游戏
+        self.game = self.HANDLER[game_params.mode](game_params)  # 生成游戏
         return self
 
     @property

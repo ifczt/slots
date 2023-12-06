@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from handler.prob import Prob
 
 
-
 @dataclass
 class BuildGameParams:
     rows: int  # 行数
@@ -15,6 +14,13 @@ class BuildGameParams:
     wild_id: int = None  # 万能符号id
     jackpot_id: int = None  # 大奖符号id
     build_nums: int = 1  # 生成数量
+
+
+@dataclass
+class GameData:
+    matrix: list = None  # 矩阵
+    winnings: list = None  # 中奖数据
+    spark: list = None  # 特殊触发数据
 
 
 class Game:
@@ -28,6 +34,7 @@ class Game:
         """
         self.build_params = params
         self.previous_game = previous_game
+        self.gamedata_lt = []
         self.build()
 
     @abstractmethod

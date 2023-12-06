@@ -35,4 +35,3 @@ class GameConf:
         self.winnings = Winnings(self.config.get('winnings'), self.config.get('game'))
         self.prob = Prob(self.config.get('prob'))
         self.build_game_params = BuildGameParams(**self.config.get('game'), prob=self.prob, winnings=self.winnings)
-        print(self.build_game_params)

@@ -38,13 +38,13 @@ class Matrix:
         self.HANDLER[self.build_params.mode]()
         return self
 
-    def build_ligature(self) -> 'Matrix':
+    def build_ligature(self):
         _mx = np.zeros((self.build_params.rows, self.build_params.cols), dtype=int)
         for row in range(self.build_params.rows):
             for col in range(self.build_params.cols):
                 _mx[row, col] = self.build_params.prob.gen_symbol()
         self.matrix = _mx
-        return self
+
 
     @staticmethod
     def find_vals(coords: list, matrix: list) -> ndarray:

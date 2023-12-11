@@ -7,6 +7,7 @@ from typing import Union
 from games.game import BuildGameParams
 from handler.prob import Prob
 from handler.round import BuildRoundParams
+from handler.spark import Spark
 from handler.winning import Winnings
 from utils import convert_keys_to_numbers
 
@@ -18,6 +19,7 @@ class GameConf:
 
     def __init__(self, game_id: int):
         # 获取toml配置文件
+        self.spark = None
         self.winnings = None
         self.prob = None
         self.build_game_params = None
@@ -35,7 +37,8 @@ class GameConf:
         """
         self.winnings = Winnings(self.config.get('winnings'), self.config.get('game'))
         self.prob = Prob(self.config.get('prob'))
-        self.build_game_params = BuildGameParams(**self.config.get('game'), prob=self.prob, winnings=self.winnings)
+        self.spark = Spark(self.config.get('spark')) if self.config.get('spark') else None
+        self.build_game_params = BuildGameParams(**self.config.get('game'), prob=self.prob, winnings=self.winnings, spark=self.spark)
         round_conf = self.config.get('round')
         round_conf = round_conf[0] if round_conf else {}
         self.build_round_params = BuildRoundParams(game_params=self.build_game_params, **round_conf)

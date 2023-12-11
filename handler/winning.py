@@ -32,7 +32,7 @@ class Odds:
                 __symbol = item.pop('symbol')
                 self.odds_dc[__symbol] = item
 
-    def check_win(self, tp=COUNT, **kwargs):
+    def mate_win(self, tp=COUNT, **kwargs):
         """
         检查是否中奖
         :param tp: 中奖类型
@@ -138,8 +138,8 @@ class Winnings:
         ligature_symbol = list(remove_wild_set)[0] if remove_wild_set else self.wild_id
         # 判断wild的连线分数是否大于连线元素的分数
         count_wild = Matrix.find_continuous_repeated(ligature, self.wild_id) or 0
-        wild_odds = self.odds.check_win(symbol_id=self.wild_id, count=count_wild) if count_wild >= self.min else 0
-        odds = self.odds.check_win(symbol_id=ligature_symbol, count=ligature_len)
+        wild_odds = self.odds.mate_win(symbol_id=self.wild_id, count=count_wild) if count_wild >= self.min else 0
+        odds = self.odds.mate_win(symbol_id=ligature_symbol, count=ligature_len)
         params = (self.wild_id, count_wild, wild_odds, coords[:count_wild]) if wild_odds > odds else (ligature_symbol, ligature_len, odds, coords[:ligature_len])
         winning = Winning(*params)
 

@@ -27,7 +27,14 @@ cols = 5
 mode = 'LIGATURE'
 [[round]]
 build_nums = 1
-[[round]]
+[[spark]]
+mode = 'COUNT_SYMBOL'
+symbol = 1
+min = 3
+max = 5
+[spark.freespin]
+mode = 'LIGATURE'
+build_nums = 10
 [prob]
 [[prob.symbol]]
 1 = 0.1

@@ -45,7 +45,6 @@ class Matrix:
                 _mx[row, col] = self.build_params.prob.gen_symbol()
         self.matrix = _mx
 
-
     @staticmethod
     def find_vals(coords: list, matrix: list) -> ndarray:
         """
@@ -73,3 +72,12 @@ class Matrix:
         if not isinstance(arr, ndarray):
             arr = np.array(arr)
         return arr
+
+    @staticmethod
+    def count_occurrences(arr, n) -> (int, list):
+        """统计n在arr中出现的次数"""
+        arr = Matrix.to_ndarray(arr)
+        mask = arr == n
+        count = np.count_nonzero(arr == n) or 0
+        coords = np.argwhere(mask)
+        return count, coords.tolist()

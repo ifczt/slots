@@ -12,6 +12,13 @@ from handler.winning import Winnings
 from utils import convert_keys_to_numbers
 
 
+@dataclass
+class GameHandler:
+    winnings: Winnings
+    prob: Prob
+    spark: Spark
+
+
 class GameConf:
     """
     游戏配置
@@ -22,6 +29,7 @@ class GameConf:
         self.spark = None
         self.winnings = None
         self.prob = None
+        self.game_handler = None
         self.build_game_params = None
         self.build_round_params = None
         self.game_id = game_id
@@ -31,14 +39,36 @@ class GameConf:
         self.config = toml.load(path)
         self.setup()
 
+    @property
+    def spark_conf(self):
+        return self.config.get('spark', {})
+
+    @property
+    def game_conf(self):
+        return self.config.get('game', {})
+
+    @property
+    def round_conf(self):
+        return self.config.get('round', {})
+
+    @property
+    def winnings_conf(self):
+        return self.config.get('winnings', {})
+
+    @property
+    def prob_conf(self):
+        return self.config.get('prob', {})
+
     def setup(self):
         """
         初始化配置
         """
-        self.winnings = Winnings(self.config.get('winnings'), self.config.get('game'))
-        self.prob = Prob(self.config.get('prob'))
-        self.spark = Spark(self.config.get('spark')) if self.config.get('spark') else None
-        self.build_game_params = BuildGameParams(**self.config.get('game'), prob=self.prob, winnings=self.winnings, spark=self.spark)
-        round_conf = self.config.get('round')
+        self.winnings = Winnings(self.winnings_conf, self.game_conf)
+        self.prob = Prob(self.prob_conf)
+        self.spark = Spark(self.spark_conf, self.game_conf) if self.spark_conf else None
+        self.game_handler = GameHandler(winnings=self.winnings, prob=self.prob, spark=self.spark)
+        self.spark.game_handler = self.game_handler
+        self.build_game_params = BuildGameParams(game_handler=self.game_handler, **self.game_conf)
+        round_conf = self.round_conf
         round_conf = round_conf[0] if round_conf else {}
-        self.build_round_params = BuildRoundParams(game_params=self.build_game_params, **round_conf)
+        self.build_round_params = BuildRoundParams(game_params=self.build_game_params, game_handler=self.game_handler, **round_conf)

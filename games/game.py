@@ -7,12 +7,11 @@ class BuildGameParams:
     rows: int  # 行数
     cols: int  # 列数
     mode: str  # 模式
-    prob: 'Prob'  # 概率/随机数生成器
-    winnings: 'Winnings'  # 中奖生成判定器
-    spark: 'Spark' = None  # 特殊触发器
+    game_handler: 'GameHandler' = None  # 游戏处理器
     wild_id: int = None  # 万能符号id
     jackpot_id: int = None  # 大奖符号id
     build_nums: int = 1  # 生成数量
+
 
 
 @dataclass
@@ -35,9 +34,9 @@ class Game:
         self.previous_game = previous_game
         self.gamedata_lt = []
         self.score = 0
-        self.winnings = params.winnings
-        self.prob = params.prob
-        self.spark = params.spark
+        self.winnings = params.game_handler.winnings
+        self.prob = params.game_handler.prob
+        self.spark = params.game_handler.spark
         self.build()
 
     @abstractmethod

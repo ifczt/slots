@@ -27,14 +27,14 @@ cols = 5
 mode = 'LIGATURE'
 [[round]]
 build_nums = 1
-[[spark]]
-mode = 'COUNT_SYMBOL'
-symbol = 1
-min = 3
-max = 5
-[spark.freespin]
-mode = 'LIGATURE'
-build_nums = 10
+[[spark]]   # 触发免费游戏配置
+mode = 'COUNT_SYMBOL' # 匹配模式
+symbol = 1 # 触发图标元素
+min = 3 # 触发最小数量
+max = 5 # 触发最大数量
+[spark.freespin] # 触发freespin配置
+mode = 'LIGATURE' # 触发游戏模式
+build_nums = 10 # 执行次数
 [prob]
 [[prob.symbol]]
 1 = 0.1

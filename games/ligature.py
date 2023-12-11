@@ -4,9 +4,8 @@ from utils.slots_pipe import SlotsPipe
 
 
 class Ligature(Game):
-    def __init__(self, params: BuildGameParams, previous_game: 'Game' = None):
+    def __init__(self, params: BuildGameParams, previous_game: Game = None):
         super().__init__(params, previous_game)
-
 
     def build(self):
         self.gamedata_lt = []

@@ -4,6 +4,7 @@ from games.game import BuildGameParams, Game
 from games.ligature import Ligature
 
 
+
 @dataclass
 class History:
     pass
@@ -20,6 +21,7 @@ class Data:
 @dataclass
 class BuildRoundParams:
     game_params: BuildGameParams
+    game_handler: 'GameHandler' = None  # 游戏处理器
     build_nums: int = 1  # 生成数量
     multiple: int = 1  # 倍数
     inherit: bool = False  # 是否继承上一轮倍数等数据
@@ -30,9 +32,10 @@ class Round:
         """
         回合
         :param params: 回合参数
-        :param previous_round: 上一个回合
+        :param game_handler: 游戏处理器
         """
         self.build_params = params
+        self.game_handler = params.game_handler
         self.HANDLER = {
             Game.LIGATURE: Ligature
         }

@@ -12,6 +12,9 @@ class Spark:
         self.conf = conf
         self.game_conf = game_cof
         self.game_handler = None
+        self.HANDLER = {
+            self.COUNT_SYMBOL: self.mate_count_symbol
+        }
 
     def mate(self, matrix: list):
         """
@@ -20,13 +23,21 @@ class Spark:
         :return:
         """
         for item in self.conf:
-            if item['mode'] == self.COUNT_SYMBOL:
-                if self.mate_count_symbol(item, matrix):
-                    if item.get('freespin'):
-                        game_params = BuildGameParams(game_handler=self.game_handler, **self.game_conf)
-                        round_params = BuildRoundParams(game_handler=self.game_handler, game_params=game_params)
-                        print(round_params)
-                    return True
+            handler = self.HANDLER.get(item['mode'])
+            if not handler:
+                continue
+            if handler(item, matrix):
+                self.gen_execute_params(item)
+
+    def gen_execute_params(self, item: dict):
+        """
+        执行参数
+        :param item:
+        :return:
+        """
+        if item.get('freespin'):
+            game_params = BuildGameParams(game_handler=self.game_handler, **self.game_conf)
+            round_params = BuildRoundParams(game_handler=self.game_handler, game_params=game_params)
 
     @staticmethod
     def mate_count_symbol(item: dict, matrix: list):

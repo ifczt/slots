@@ -80,7 +80,9 @@ class Winnings:
         self.min = 0
         self.max = 0
         self.winning_rule: list = []
-
+        self.group_symbols: list = []  # 群组元素
+        self.wild_symbols: list = []  # 多癞子集合
+        self.multiple_symbol: dict = {}
         odds_conf = conf.get('odds')
         self.odds: Odds = Odds(odds_conf)
         self.HANDLER = {
@@ -90,9 +92,13 @@ class Winnings:
 
     def setup(self):
         self.winning_rule = self.conf.get('winning_rule', [])
-        if self.conf.get('default'):
-            self.min = self.conf.get('default').get('min')
-            self.max = self.conf.get('default').get('max')
+        default = self.conf.get('default', {})
+        if default:
+            self.min = default.get('min', 0)
+            self.max = default.get('max', 0)
+            self.wild_symbols = default.get('wild_symbols', [])
+            self.group_symbols = default.get('group_symbols', [])
+            self.multiple_symbol = default.get('multiple_symbol', {})
 
         if self.game_conf:
             self.wild_id = self.game_conf.get('wild_id')
@@ -112,7 +118,7 @@ class Winnings:
                 continue
             func = self.HANDLER[tp]
             winning = func(matrix, rule)
-            score += winning.score if winning else 0
+            score += (winning.score * winning.multiple) if winning else 0
             winning and _winnings.append(winning)
         return _winnings, score
 
@@ -134,13 +140,14 @@ class Winnings:
         ligature_len = len(ligature)
         if ligature_len < self.min:
             return None
-        remove_wild_set = set(ligature) - {self.wild_id}
+        remove_wild_set = set(ligature) - {self.wild_id} - set(self.wild_symbols)
         ligature_symbol = list(remove_wild_set)[0] if remove_wild_set else self.wild_id
         # 判断wild的连线分数是否大于连线元素的分数
         count_wild = Matrix.find_continuous_repeated(ligature, self.wild_id) or 0
+        multiple = self.clac_multiple(ligature)
         wild_odds = self.odds.mate_win(symbol_id=self.wild_id, count=count_wild) if count_wild >= self.min else 0
         odds = self.odds.mate_win(symbol_id=ligature_symbol, count=ligature_len)
-        params = (self.wild_id, count_wild, wild_odds, coords[:count_wild]) if wild_odds > odds else (ligature_symbol, ligature_len, odds, coords[:ligature_len])
+        params = (self.wild_id, count_wild, wild_odds, coords[:count_wild], multiple) if wild_odds > odds else (ligature_symbol, ligature_len, odds, coords[:ligature_len], multiple)
         winning = Winning(*params)
 
         return winning
@@ -155,10 +162,19 @@ class Winnings:
         if not arr or symbol_id in arr:
             # 数组为空或者元素在数组中
             return True
-        if symbol_id == self.wild_id:
+        if symbol_id == self.wild_id or symbol_id in self.wild_symbols:
             # 元素为wild 且jackpot不在数组中
             return self.jackpot_id not in arr
         if symbol_id is not self.jackpot_id:
             # 元素不为jackpot 且数组全为wild
-            return len(set(arr) - {self.wild_id}) == 0
+            return len(set(arr) - {self.wild_id} - set(self.wild_symbols)) == 0
         return False
+
+    def clac_multiple(self, ligature: list) -> int:
+        """
+        计算倍数
+        :param ligature:
+        :return:
+        """
+        multiple = sum(self.multiple_symbol.get(symbol, 0) for symbol in ligature if symbol in self.multiple_symbol)
+        return multiple or 1

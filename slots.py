@@ -9,9 +9,6 @@ from handler.spark import Spark
 from handler.winning import Winnings
 
 
-
-
-
 class Slots:
     def __init__(self, game_id: int):
         self.rounds = []

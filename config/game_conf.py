@@ -53,7 +53,7 @@ class GameConf:
 
     @property
     def winnings_conf(self):
-        return self.config.get('winnings', {})
+        return convert_keys_to_numbers(self.config.get('winnings', {}))
 
     @property
     def prob_conf(self):

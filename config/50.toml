@@ -17,6 +17,10 @@ symbol = 3
 [winnings.default]
 min = 3
 max = 5
+wild_symbols = [3, 4]
+[winnings.default.multiple_symbol]
+3 = 2
+4 = 5
 [[winnings.winning_rule]]
 coords = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]]
 [game]

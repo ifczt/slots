@@ -65,6 +65,7 @@ class Round:
             self.game = self.HANDLER[game_params.mode](game_params)
             self.prizes += (self.game.score * self.multiple)
             self.game_lt.append(self.game)  # 生成游戏
+            print(self.game.gamedata_lt)
         return self
 
     @property

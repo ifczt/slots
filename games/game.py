@@ -13,7 +13,6 @@ class BuildGameParams:
     build_nums: int = 1  # 生成数量
 
 
-
 @dataclass
 class GameData:
     matrix: list = None  # 矩阵
@@ -39,9 +38,16 @@ class Game:
         self.spark = params.game_handler.spark
         self.build()
 
-    @abstractmethod
     def build(self):
+        self.gamedata_lt = []
+        for index in range(self.build_params.build_nums):
+            gamedata, score = self.conduct()
+            self.gamedata_lt.append(gamedata)
+            self.score += score
+
+    @abstractmethod
+    def conduct(self) -> (GameData, int):
         """
-        生成游戏数据
+        执行程序
         """
         pass

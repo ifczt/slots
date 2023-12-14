@@ -3,7 +3,7 @@ from handler.matrix import Matrix, BuildMatrixParams
 from utils.slots_pipe import SlotsPipe
 
 
-class Ligature(Game):
+class PgPig(Game):
     def __init__(self, params: BuildGameParams, previous_game: Game = None):
         super().__init__(params, previous_game)
 

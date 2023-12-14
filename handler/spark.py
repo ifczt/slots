@@ -1,6 +1,6 @@
-from games.game import BuildGameParams
+from games.game import BuildGameParamsDc
 from handler.matrix import Matrix
-from handler.round import BuildRoundParams
+from handler.round import BuildRoundParamsDc
 
 
 class Spark:
@@ -36,8 +36,8 @@ class Spark:
         :return:
         """
         if item.get('freespin'):
-            game_params = BuildGameParams(game_handler=self.game_handler, **self.game_conf)
-            round_params = BuildRoundParams(game_handler=self.game_handler, game_params=game_params)
+            game_params = BuildGameParamsDc(game_handler=self.game_handler, **self.game_conf)
+            round_params = BuildRoundParamsDc(game_handler=self.game_handler, game_params=game_params)
 
     @staticmethod
     def mate_count_symbol(item: dict, matrix: list):

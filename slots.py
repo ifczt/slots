@@ -4,7 +4,7 @@ from typing import Optional
 from config.game_conf import GameConf
 from handler.message import Message
 from handler.prob import Prob
-from handler.round import Round, BuildRoundParams
+from handler.round import Round, BuildRoundParamsDc
 from handler.spark import Spark
 from handler.winning import Winnings
 

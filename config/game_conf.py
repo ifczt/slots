@@ -4,9 +4,9 @@ import toml
 from dataclasses import dataclass, field
 from typing import Union
 
-from games.game import BuildGameParams
+from games.game import BuildGameParamsDc
 from handler.prob import Prob
-from handler.round import BuildRoundParams
+from handler.round import BuildRoundParamsDc
 from handler.spark import Spark
 from handler.winning import Winnings
 from utils import convert_keys_to_numbers
@@ -68,7 +68,7 @@ class GameConf:
         self.spark = Spark(self.spark_conf, self.game_conf) if self.spark_conf else None
         self.game_handler = GameHandler(winnings=self.winnings, prob=self.prob, spark=self.spark)
         self.spark.game_handler = self.game_handler
-        self.build_game_params = BuildGameParams(game_handler=self.game_handler, **self.game_conf)
+        self.build_game_params = BuildGameParamsDc(game_handler=self.game_handler, **self.game_conf)
         round_conf = self.round_conf
         round_conf = round_conf[0] if round_conf else {}
-        self.build_round_params = BuildRoundParams(game_params=self.build_game_params, game_handler=self.game_handler, **round_conf)
+        self.build_round_params = BuildRoundParamsDc(game_params=self.build_game_params, game_handler=self.game_handler, **round_conf)

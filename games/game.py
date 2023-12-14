@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class BuildGameParams:
+class BuildGameParamsDc:
     rows: int  # 行数
     cols: int  # 列数
     mode: str  # 模式
@@ -14,7 +14,7 @@ class BuildGameParams:
 
 
 @dataclass
-class GameData:
+class GameDataDc:
     matrix: list = None  # 矩阵
     winnings: list = None  # 中奖数据
     spark: list = None  # 特殊触发数据
@@ -23,7 +23,7 @@ class GameData:
 class Game:
     LIGATURE = 'LIGATURE'  # 连线
 
-    def __init__(self, params: BuildGameParams, previous_game: 'Game' = None):
+    def __init__(self, params: BuildGameParamsDc, previous_game: 'Game' = None):
         """
         游戏
         :param params: 游戏参数
@@ -41,12 +41,12 @@ class Game:
     def build(self):
         self.gamedata_lt = []
         for index in range(self.build_params.build_nums):
-            gamedata, score = self.conduct()
-            self.gamedata_lt.append(gamedata)
+            GameDataDc, score = self.conduct()
+            self.gamedata_lt.append(GameDataDc)
             self.score += score
 
     @abstractmethod
-    def conduct(self) -> (GameData, int):
+    def conduct(self) -> (GameDataDc, int):
         """
         执行程序
         """

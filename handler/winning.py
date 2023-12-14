@@ -7,7 +7,7 @@ from utils import convert_keys_to_numbers
 
 
 @dataclass
-class Winning:
+class WinningDc:
     symbol: Union[int, str] = None  # 中奖元素
     count: int = 0  # 中奖数量
     score: float = 0  # 中奖分数
@@ -104,7 +104,7 @@ class Winnings:
             self.wild_id = self.game_conf.get('wild_id')
             self.jackpot_id = self.game_conf.get('jackpot_id')
 
-    def mate(self, matrix) -> (List[Winning], float):
+    def mate(self, matrix) -> (List[WinningDc], float):
         """
         检查是否中奖
         :param matrix: 验证矩阵
@@ -122,7 +122,7 @@ class Winnings:
             winning and _winnings.append(winning)
         return _winnings, score
 
-    def mate_ligature(self, matrix: list, rule: dict) -> Winning | None:
+    def mate_ligature(self, matrix: list, rule: dict) -> WinningDc | None:
         """
         匹配线路
         :param matrix: 矩阵
@@ -148,7 +148,7 @@ class Winnings:
         wild_odds = self.odds.mate_win(symbol_id=self.wild_id, count=count_wild) if count_wild >= self.min else 0
         odds = self.odds.mate_win(symbol_id=ligature_symbol, count=ligature_len)
         params = (self.wild_id, count_wild, wild_odds, coords[:count_wild], multiple) if wild_odds > odds else (ligature_symbol, ligature_len, odds, coords[:ligature_len], multiple)
-        winning = Winning(*params)
+        winning = WinningDc(*params)
 
         return winning
 

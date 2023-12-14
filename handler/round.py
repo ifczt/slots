@@ -1,17 +1,17 @@
 from dataclasses import dataclass
 
-from games.game import BuildGameParams, Game
+from games.game import BuildGameParamsDc, Game
 from games.ligature import Ligature
 
 
 
 @dataclass
-class History:
+class HistoryDc:
     pass
 
 
 @dataclass
-class Data:
+class DataDc:
     current_plays: int = 0  # 当前动画播放次数
     total_plays: int = 0  # 动画总播放次数
     current_round: int = 0  # 当前回合
@@ -19,8 +19,8 @@ class Data:
 
 
 @dataclass
-class BuildRoundParams:
-    game_params: BuildGameParams
+class BuildRoundParamsDc:
+    game_params: BuildGameParamsDc
     game_handler: 'GameHandler' = None  # 游戏处理器
     build_nums: int = 1  # 生成数量
     multiple: int = 1  # 倍数
@@ -28,7 +28,7 @@ class BuildRoundParams:
 
 
 class Round:
-    def __init__(self, params: BuildRoundParams):
+    def __init__(self, params: BuildRoundParamsDc):
         """
         回合
         :param params: 回合参数
@@ -45,7 +45,7 @@ class Round:
         self.prizes = 0
         self.build()
 
-    def get_next_round_params(self) -> BuildRoundParams:
+    def get_next_round_params(self) -> BuildRoundParamsDc:
         """
         获取下一个回合参数
         :return:
@@ -53,7 +53,7 @@ class Round:
         params = {}
         if self.build_params.inherit:
             params['multiple'] = self.multiple
-        build_params = BuildRoundParams(game_params=self.build_params.game_params, **params)
+        build_params = BuildRoundParamsDc(game_params=self.build_params.game_params, **params)
         return build_params
 
     def build(self):
@@ -65,7 +65,7 @@ class Round:
             self.game = self.HANDLER[game_params.mode](game_params)
             self.prizes += (self.game.score * self.multiple)
             self.game_lt.append(self.game)  # 生成游戏
-            print(self.game.gamedata_lt)
+
         return self
 
     @property

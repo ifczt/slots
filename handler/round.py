@@ -1,8 +1,8 @@
 from dataclasses import dataclass
+from typing import List, Optional
 
 from games.game import BuildGameParamsDc, Game
 from games.ligature import Ligature
-
 
 
 @dataclass
@@ -27,6 +27,19 @@ class BuildRoundParamsDc:
     inherit: bool = False  # 是否继承上一轮倍数等数据
 
 
+@dataclass
+class RoundDc:
+    """
+    回合数据
+    """
+    game_lt: List[Game]
+    multiple: int = 1
+    prizes: float = 0
+    score: float = 0
+    size: int = 0
+    current: int = 0
+
+
 class Round:
     def __init__(self, params: BuildRoundParamsDc):
         """
@@ -34,15 +47,16 @@ class Round:
         :param params: 回合参数
         :param game_handler: 游戏处理器
         """
-        self.build_params = params
+        self.build_params: BuildRoundParamsDc = params
         self.game_handler = params.game_handler
         self.HANDLER = {
             Game.LIGATURE: Ligature
         }
-        self.game_lt = []
-        self.game = None
-        self.multiple = 1
-        self.prizes = 0
+        self.game_lt: list = []
+        self.multiple: int = 1
+        self.prizes: float = 0
+        self.score: float = 0
+        self.round_dc: Optional[RoundDc] = None
         self.build()
 
     def get_next_round_params(self) -> BuildRoundParamsDc:
@@ -62,10 +76,15 @@ class Round:
         """
         for index in range(self.build_params.build_nums):
             game_params = self.build_params.game_params
-            self.game = self.HANDLER[game_params.mode](game_params)
-            self.prizes += (self.game.score * self.multiple)
-            self.game_lt.append(self.game)  # 生成游戏
-
+            game = self.HANDLER[game_params.mode](game_params)
+            self.prizes += (game.score * self.multiple)
+            self.score += game.score
+            self.game_lt.append(game)  # 生成游戏
+            print(game.score)
+            print(game.gamedata_lt)
+        self.round_dc = RoundDc(game_lt=self.game_lt, multiple=self.multiple, prizes=self.prizes, score=self.score,
+                                size=len(self.game_lt), current=0)
+        print(self.round_dc)
         return self
 
     @property

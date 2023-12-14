@@ -1,5 +1,5 @@
 from games.game import Game, BuildGameParamsDc, GameDataDc
-from handler.matrix import Matrix, BuildMatrixParams
+from handler.matrix import Matrix, BuildMatrixParamsDc
 from utils.slots_pipe import SlotsPipe
 
 
@@ -8,7 +8,7 @@ class PgPig(Game):
         super().__init__(params, previous_game)
 
     def conduct(self) -> (GameDataDc, int):
-        matrix_params = BuildMatrixParams(rows=self.build_params.rows, cols=self.build_params.cols, mode=self.build_params.mode, prob=self.prob)
+        matrix_params = BuildMatrixParamsDc(rows=self.build_params.rows, cols=self.build_params.cols, mode=self.build_params.mode, prob=self.prob)
         matrix = Matrix(matrix_params)
         winnings, score = self.winnings.mate(matrix.matrix)
         self.spark.mate(matrix.matrix)

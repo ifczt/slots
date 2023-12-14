@@ -9,7 +9,7 @@ from handler.prob import Prob
 
 
 @dataclass
-class BuildMatrixParams:
+class BuildMatrixParamsDc:
     prob: Prob
     mode: str = Game.LIGATURE  # 生成类型
     rows: int = 10  # 行数
@@ -17,7 +17,7 @@ class BuildMatrixParams:
 
 
 class Matrix:
-    def __init__(self, params: BuildMatrixParams, previous_matrix: 'Matrix' = None):
+    def __init__(self, params: BuildMatrixParamsDc, previous_matrix: 'Matrix' = None):
         """
         回合
         :param params: 生成矩阵参数

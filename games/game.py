@@ -18,6 +18,8 @@ class GameDataDc:
     matrix: list = None  # 矩阵
     winnings: list = None  # 中奖数据
     spark: list = None  # 特殊触发数据
+    score: float = 0
+    multiple: int = 1
 
 
 class Game:
@@ -41,8 +43,8 @@ class Game:
     def build(self):
         self.gamedata_lt = []
         for index in range(self.build_params.build_nums):
-            GameDataDc, score = self.conduct()
-            self.gamedata_lt.append(GameDataDc)
+            gamedata_dc, score = self.conduct()
+            self.gamedata_lt.append(gamedata_dc)
             self.score += score
 
     @abstractmethod

@@ -1,0 +1,17 @@
+[prob]
+[[prob.symbol]]
+1 = 0.1
+2 = 0.1
+3 = 0.1
+4 = 0.1
+[matrix]
+[[matrix.rule]]
+symbol = [1]
+coords = [[0,0],[0,1]]
+exclude_coords = [[2,2]]
+max = 2
+min = 1
+[[matrix.rule.mutual_exclusion]]
+trigger_num = 1 # 该规则组里的symbol存在num个时，触发互斥
+other_max_after_trigger = 0 # 触发互斥后，其他symbol的max值
+exclusion_symbol = [2] # 额外配置的互斥symbol

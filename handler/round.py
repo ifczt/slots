@@ -80,11 +80,8 @@ class Round:
             self.prizes += (game.score * self.multiple)
             self.score += game.score
             self.game_lt.append(game)  # 生成游戏
-            print(game.score)
-            print(game.gamedata_lt)
         self.round_dc = RoundDc(game_lt=self.game_lt, multiple=self.multiple, prizes=self.prizes, score=self.score,
                                 size=len(self.game_lt), current=0)
-        print(self.round_dc)
         return self
 
     @property

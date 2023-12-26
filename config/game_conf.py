@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from games.game import BuildGameParamsDc
+from handler.game_state import GameState
 from handler.prob import Prob
 from handler.round import BuildRoundParamsDc
 from handler.spark import Spark
@@ -17,6 +18,7 @@ class GameHandler:
     winnings: Winnings
     prob: Prob
     spark: Spark
+    game_state: GameState = None
 
 
 class GameConf:

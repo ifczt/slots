@@ -1,6 +1,11 @@
+from typing import Dict, List
+
+from handler.round import Round
+
+
 class Message:
     def __init__(self, rounds: list):
-        self.rounds = rounds
+        self.rounds: List[Round] = rounds
         self.index = 0
 
     def send(self, index: int = None):
@@ -11,7 +16,9 @@ class Message:
         index = index or self.index
         if index >= len(self.rounds):
             raise 'index out of range'
-
+        _rounds = self.rounds[index]
+        print(_rounds.prizes, _rounds.score)
+        [print(game.gamedata_lt) for game in _rounds.game_lt]
 
     def inc_send(self):
         """
